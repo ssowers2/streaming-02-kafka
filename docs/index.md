@@ -23,48 +23,110 @@ to get these projects running on your machine.
 
 ### Dataset
 
-The Kafka producer uses the dataset file `sales_sowers.csv`. The dataset contains
-streaming product sales records that include customer purchases, product details,
-payment methods, sales regions, and pricing information. Each record includes fields
-such as: `customer_id`, `product_id`, `quantity`, `unit_price`, `payment_method`,
-`region_id`, `currency_code`, and additional Kafka metadata fields. I used a modified
-version of the original sales dataset for my custom project.
+The Kafka producer uses the dataset file `sales_sowers.csv`.
+
+The dataset contains streaming product sales records that include
+customer purchases, product details, payment methods, sales regions,
+and pricing information.
+
+Each record includes fields such as:
+
+- `customer_id`
+- `product_id`
+- `quantity`
+- `unit_price`
+- `payment_method`
+- `region_id`
+- `currency_code`
+
+The dataset also included additional Kafka metadata fields:
+
+- `_kafka_key`
+- `_kafka_partition`
+- `_kafka_offset`
+
+I used a modified version of the original sales dataset
+for my custom project.
 
 ### Kafka Messages
 
-The Kafka producer sends streaming sales transaction messages through the Kafka topic
-`product-sales-case`. Each message represents a single sales record from the dataset.
-The message key used was the `region_id` field (such as `US-TX` or `CA-ON`) to help organize
-messages by sales region. I also modified the message output by adding a calculated field named `total_sale_amount`.
+The Kafka producer sends streaming sales transaction messages
+through the Kafka topic `product-sales-case`.
+
+Each message represents a single sales record from the dataset.
+
+The message key used was the `region_id` field
+(such as `US-TX` or `CA-ON`) to help organize messages
+by sales region.
+
+I also modified the message output by adding a calculated
+field named `total_sale_amount`.
 
 ### Consumer Processing
 
-The Kafka consumer receives sales transaction messages from the Kafka topic and processes
-each message individually. The consumer logs incoming messages, consumes the available records,
-and writes the processed data to the CSV output file `consumed_sales_sowers.csv`. I modified the
-consumer logic to calculate and add the `total_sale_amount` field by multiplying `quantity`
+The Kafka consumer receives sales transaction messages
+from the Kafka topic and processes each message individually.
+
+The consumer successfully consumed 18 streaming sales messages
+from the Kafka topic `product-sales-case`.
+
+The consumer logs incoming messages, processes the records,
+and writes the results to the custom output file
+`consumed_sales_sowers.csv`.
+
+The processed records included Kafka metadata fields such as:
+
+- `_kafka_key`
+- `_kafka_partition`
+- `_kafka_offset`
+
+I modified the consumer logic to calculate and add the
+`total_sale_amount` field by multiplying `quantity`
 and `unit_price` for each sales record.
 
 ### Experiments
 
-For my technical modifications, I first created custom producer and consumer copies
-named `kafka_producer_sowers.py` and `kafka_consumer_sowers.py`.I changed the consumer output
-filename from `consumed_sales.csv` to `consumed_sales_sowers.csv`. I also added a custom
-calculated field named `total_sale_amount` to the processed Kafka messages.
+For my technical modifications, I first created custom producer
+and consumer copies named:
+
+- `kafka_producer_sowers.py`
+- `kafka_consumer_sowers.py`
+
+I changed the consumer output filename from
+`consumed_sales.csv` to `consumed_sales_sowers.csv`.
+
+I also added a custom calculated field named
+`total_sale_amount` to the processed Kafka messages.
 
 ### Results
 
-After running the Kafka server, producer, and consumer, the project successfully streamed the
-sales records through Kafka topics and generated a custom output CSV file containing the
-processed sales data and calculated totals.
+After running the Kafka server, producer, and consumer,
+the project successfully streamed the sales records
+through Kafka topics and generated a custom output CSV file
+containing the processed sales data and calculated totals.
 
 ### Interpretation
 
-This Kafka streaming workflow demonstrated how real-time sales data can move from a producer
-to a Kafka topic and then to a consumer for processing and analysis. Compared to the original
-example, my project added a custom calculated business metric and a separate custom output file.
-Watching the messages move through Kafka helped me better understand how streaming analytics
-pipelines process data in motion. The stream could help a business (e.g., bank, retailer)
-monitor transactions, calculate sales totals, and analyze customer purchasing behavior in near
-real time. The business intelligence gained from the consumed messages includes total sales values,
-customer purchasingtrends, payment methods, and regional sales activity.
+This Kafka streaming workflow demonstrated how real-time
+sales data moves from a producer to a Kafka topic and then
+to a consumer for processing and analysis.
+
+Compared to the original example, my project added a custom
+calculated business metric (`total_sale_amount`)
+and a separate custom output file.
+
+Watching the messages move through Kafka helped me better
+understand how streaming analytics pipelines process
+data in motion.
+
+This type of stream could help businesses such as retailers
+or banks monitor transactions, calculate sales totals,
+and analyze customer purchasing behavior in near real time.
+
+The business intelligence gained from the consumed messages
+includes:
+
+- total sales values
+- customer purchasing trends
+- payment methods
+- regional sales activity
