@@ -434,3 +434,28 @@ my output data from overwriting the original project files.
 After running the Kafka server, producer, and consumer scripts, the consumer
 successfully processed the streaming sales data and generated the new custom
 output CSV file in the `data/output/` folder.
+
+## Custom Technical Modification
+
+### Added Custom Calculated Column
+
+I modified the Kafka consumer logic to create a new calculated column named `total_sale_amount`.
+
+### Purpose
+
+The new column was added to make the streaming sales data more useful for business
+analysis by calculating the total value of each order.
+
+### Implementation
+
+I updated the `process_message()` function in `kafka_consumer_sowers.py` to calculate:
+
+total_sale_amount = quantity * unit_price
+
+for each consumed Kafka message.
+
+### Results
+
+After rerunning the Kafka producer and consumer scripts, the output CSV file
+successfully included the new `total_sale_amount` column with calculated sales totals
+for each streamed record.
