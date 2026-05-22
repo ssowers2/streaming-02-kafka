@@ -415,3 +415,22 @@ It often figures it out and continues.
 | C02 | Consumer executed successfully!
 | C02 | ========================
 ```
+
+## Technical Modification
+
+### What I Changed
+
+I modified the Kafka consumer to generate a custom output file named
+`consumed_sales_sowers.csv` instead of the default output CSV file. I also
+created custom producer and consumer scripts using my own `_sowers` file naming convention.
+
+### Why I Made the Change
+
+I wanted to create a personalized version of the streaming workflow and prevent
+my output data from overwriting the original project files.
+
+### What I Observed
+
+After running the Kafka server, producer, and consumer scripts, the consumer
+successfully processed the streaming sales data and generated the new custom
+output CSV file in the `data/output/` folder.
